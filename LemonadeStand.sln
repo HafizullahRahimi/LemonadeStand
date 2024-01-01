@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FF8BEC76-2FD7-4C95-BB64-BDB07D43923A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{588DD53B-56BE-49E8-9107-03B32CACD798}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{E46D5965-FD55-4A26-AB32-DC7D68ADDD90}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{619F2CD9-EF48-4CD4-BBCC-36003BF073E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LemonadeStand.Application", "LemonadeStand.Application\LemonadeStand.Application.csproj", "{FACA8D83-6F83-4CE0-AAA2-8DB4F1DD0F4C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FACA8D83-6F83-4CE0-AAA2-8DB4F1DD0F4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FACA8D83-6F83-4CE0-AAA2-8DB4F1DD0F4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FACA8D83-6F83-4CE0-AAA2-8DB4F1DD0F4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FACA8D83-6F83-4CE0-AAA2-8DB4F1DD0F4C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E46D5965-FD55-4A26-AB32-DC7D68ADDD90} = {FF8BEC76-2FD7-4C95-BB64-BDB07D43923A}
+		{619F2CD9-EF48-4CD4-BBCC-36003BF073E7} = {FF8BEC76-2FD7-4C95-BB64-BDB07D43923A}
+		{FACA8D83-6F83-4CE0-AAA2-8DB4F1DD0F4C} = {E46D5965-FD55-4A26-AB32-DC7D68ADDD90}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7DC1C1BB-FF61-4434-9293-0F23101281D0}
+	EndGlobalSection
+EndGlobal
