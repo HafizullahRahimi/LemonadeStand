@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LemonadeStand.Application.DTOs
+namespace LemonadeStand.Application.Features
 {
     public class FruitPressResult
     {
@@ -29,15 +29,23 @@ namespace LemonadeStand.Application.DTOs
         }
 
 
-        public string PriceError()
+        public string HandlePriceError()
         {
             //if (_recipe.AllowedFruit == typeof(Apple)){}
             string errorMess = null;
+            //if (_orderedGlassQuantity == 0)
+            //{
+            //    errorMess = $"Select ordered quanity";
+            //    return errorMess;
+            //}
+
             int resultPrice = _recipe.PricePerGlass * _orderedGlassQuantity;
-            if (_moneyPaid == 0)
-            {
-                errorMess = $"money only enough for 0 glass(es)! Money : {resultPrice} Needed!";
-            }
+            //if (_moneyPaid == 0)
+            //{
+            //    errorMess = $"money only enough for 0 glass(es)! Money : {resultPrice} Needed!";
+            //    return errorMess;
+            //}
+
 
             if (_moneyPaid != resultPrice)
             {
@@ -49,14 +57,17 @@ namespace LemonadeStand.Application.DTOs
 
         }
 
-        public string ConsumptionFruitError(string message)
+        public string HandleConsumptionFruitError()
         {
             string errorMess = null;
 
-            int consumptionFruit = Convert.ToInt32(Convert.ToDecimal(_orderedGlassQuantity) * _recipe.ConsumptionPerGlass);
-            if (consumptionFruit != _fruits.Count)
+           
+            decimal consumptionFruit = Convert.ToDecimal(_orderedGlassQuantity) * _recipe.ConsumptionPerGlass;
+            decimal consumptionFruitToInt = Convert.ToInt32(Math.Ceiling( consumptionFruit));
+
+            if (consumptionFruitToInt != _fruits.Count)
             {
-                errorMess = $"fruits are not enough for {_orderedGlassQuantity} glass(es)! Fruits : {consumptionFruit} Needed!";
+                errorMess = $"{consumptionFruitToInt} fruits are enough for {_orderedGlassQuantity} glass(es)! Allowed Fruit: {_recipe.AllowedFruit.Name}";
             }
 
             return errorMess;

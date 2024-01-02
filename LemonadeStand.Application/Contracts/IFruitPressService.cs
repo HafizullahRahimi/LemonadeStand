@@ -1,4 +1,4 @@
-﻿using LemonadeStand.Application.DTOs;
+﻿using LemonadeStand.Application.Features;
 using System.Collections.ObjectModel;
 
 namespace LemonadeStand.Application.Contracts

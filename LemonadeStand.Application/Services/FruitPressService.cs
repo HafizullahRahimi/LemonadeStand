@@ -1,5 +1,5 @@
 ﻿using LemonadeStand.Application.Contracts;
-using LemonadeStand.Application.DTOs;
+using LemonadeStand.Application.Features;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

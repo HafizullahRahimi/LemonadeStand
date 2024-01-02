@@ -34,74 +34,216 @@
 
 </div>
 
-
+<br />
+<hr />
 
 @* Customer order *@
 <h3 class="mt-3">Customer order</h3>
 
 @* Alert *@
-@if (text != null)
+@if (alertTitle != null)
 {
-    <Alert Title="@text" />
+    <Alert Title="@alertTitle" />
 }
 
 @* Form *@
-<div>
 
-    <div class="d-flex mb-3 justify-content-between">
-        <div class="col-4">
-            <label for="formGroupExampleInput" class="form-label">Select recipe</label>
-            <select class="form-select" aria-label="Default select example">
-                <option value="1">Apple Lemonade </option>
-                <option value="2">Melon Lemonade</option>
-                <option value="3">Orange Lemonade</option>
-            </select>
-        </div>
-        <div class="col-4 mx-2">
-            <label for="formGroupExampleInput" class="form-label">Ordered Quanity</label>
-            <input type="number" class="form-control" id="formGroupExampleInput" placeholder="0">
-        </div>
+<EditForm Model="orderDto" OnValidSubmit="HandleProcessOrder">
 
-        <div class="col-4">
-            <label for="formGroupExampleInput" class="form-label">Money Paid</label>
-            <input type="number" class="form-control" id="formGroupExampleInput" placeholder="0">
+    <div class="d-flex justify-content-between mt-3 ">
+        <div class="form-group  col-4">
+            <label for="recipe">Select recipe</label>
+            <InputSelect id="recipe" @bind-Value="orderDto.Recipe" class="form-select">
+                <option selected>Open this select menu</option>
+                <option value="Apple Lemonade">Apple Lemonade </option>
+                <option value="Melon Lemonade">Melon Lemonade</option>
+                <option value="Orange Lemonade">Orange Lemonade</option>
+            </InputSelect>
+
         </div>
 
-    </div>
-
-    <div class="d-flex mb-3 justify-content-between">
-        <div class="col-4">
-            <label for="formGroupExampleInput" class="form-label">Apples added</label>
-            <input type="number" class="form-control" id="formGroupExampleInput" placeholder="0">
+        <div class="form-group col-4 px-2">
+            <label for="orderedQuanity">Ordered Quanity</label>
+            <InputNumber id="orderedQuanity" @bind-Value="orderDto.OrderedGlassQuantity" class="form-control"></InputNumber>
         </div>
 
-        <div class="col-4 mx-2">
-            <label for="formGroupExampleInput" class="form-label">Melons added</label>
-            <input type="number" class="form-control" id="formGroupExampleInput" placeholder="0">
-        </div>
-
-        <div class=" col-4">
-            <label for="formGroupExampleInput" class="form-label">Oranges added</label>
-            <input type="number" class="form-control" id="formGroupExampleInput" placeholder="0">
+        <div class="form-group col-4">
+            <label for="moneyPaid">Money Paid</label>
+            <InputNumber id="moneyPaid" @bind-Value="orderDto.MoneyPaid" class="form-control" min="0"></InputNumber>
         </div>
     </div>
 
-    <div class="col-auto">
+    <div class="d-flex my-3 justify-content-between">
+
+        <div class="form-group col-4">
+            <label for="applesAdded">Apples added</label>
+            <InputNumber id="applesAdded" @bind-Value="orderDto.ApplesAdded" class="form-control" min="0"></InputNumber>
+        </div>
+
+
+        <div class="form-group col-4 px-2">
+            <label for="melonsAdded">Melons added</label>
+            <InputNumber id="melonsAdded" @bind-Value="orderDto.MelonsAdded" class="form-control" min="0"></InputNumber>
+        </div>
+
+
+        <div class="form-group col-4">
+            <label for="orangesAdded">Oranges added</label>
+            <InputNumber id="orangesAdded" @bind-Value="orderDto.OrangesAdded" class="form-control" min="0"></InputNumber>
+        </div>
+    </div>
+
+    <div class="mb-5">
         <button type="submit" class="btn btn-primary mb-3">Process order</button>
     </div>
 
-</div>
+</EditForm>
+
+
+
+
+
 
 
 
 @code {
-    private string text = null;
+    private OrderDto orderDto = new OrderDto();
 
+    private string alertTitle = null;
+
+    private IRecipe recipe;
+    Collection<IFruit> fruits;
+
+    // Collection<IFruit> fruits = new Collection<IFruit>();
+
+    private int moneyPaid;
+    private int orderedGlassQuantity;
+
+
+}
+
+@functions {
 
     protected override void OnInitialized()
     {
-        text = FruitPressService.Test();
+        // alertTitle = FruitPressService.Test();
 
         base.OnInitialized();
     }
+
+
+
+    private void HandleProcessOrder()
+    {
+        fruits = new Collection<IFruit>();
+
+        bool recipeValidaision = RecipeValidaision();
+
+        if (!recipeValidaision)
+        {
+            alertTitle = "Select recipe";
+        }
+        else if (orderDto.OrderedGlassQuantity == 0)
+        {
+            alertTitle = $"Select ordered quanity";
+        }
+        else if (orderDto.MoneyPaid == 0)
+        {
+            alertTitle = $"money only enough for 0 glass(es)!";
+        }
+        else
+        {
+            ProduceOrder();
+        }
+
+
+    }
+
+
+
+    private void ProduceOrder()
+    {
+
+        var produce = FruitPressService.Produce(recipe, fruits, orderDto.MoneyPaid, orderDto.OrderedGlassQuantity);
+
+        var priceError = produce.HandlePriceError();
+
+        if (priceError != null)
+        {
+            alertTitle = $"{priceError}";
+        }
+        else if (fruits.Count == 0)
+        {
+            alertTitle = $"Add {recipe.AllowedFruit.Name}s";
+        }
+        else
+        {
+
+            alertTitle = $"Need {fruits.Count} {recipe.AllowedFruit.Name}s";
+
+
+
+            // var consumptionFruitError = produce.HandleConsumptionFruitError();
+            // if (consumptionFruitError != null)
+            // {
+            //     alertTitle = $"{consumptionFruitError}";
+
+            // }
+
+        }
+
+
+
+    }
+
+
+    private bool RecipeValidaision()
+    {
+        // Recipe
+        switch (orderDto.Recipe)
+        {
+            case "Apple Lemonade":
+                recipe = new AppleLemonadeRecipe() { };
+                AddFruit(orderDto.ApplesAdded, new Apple() { });
+                // ProduceOrder();
+                return true;
+                break;
+
+            case "Melon Lemonade":
+                recipe = new MelonLemonadeRecipe() { };
+                AddFruit(orderDto.MelonsAdded, new Melon() { });
+                // ProduceOrder();
+                return true;
+                break;
+
+            case "Orange Lemonade":
+                recipe = new OrangeLemonadeRecipe() { };
+                AddFruit(orderDto.OrangesAdded, new Orange() { });
+                // ProduceOrder();
+                return true;
+                break;
+
+            default:
+                return false;
+                break;
+
+        }
+
+        Console.WriteLine($"{orderDto.Recipe}");
+    }
+
+    private void AddFruit(int length, IFruit fruit)
+    {
+        // alertTitle = $"Add {fruit.Name}";
+
+
+        for (int i = 0; i < length; i++)
+        {
+            fruits.Add(fruit);
+        }
+
+
+
+    }
+
 }
