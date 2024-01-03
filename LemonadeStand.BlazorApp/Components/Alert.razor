@@ -2,7 +2,7 @@
 
 @if(Title != null)
 {
-    <div class="alert alert-danger" role="alert">
+    <div class="alert alert-@AlertType" role="alert">
         @Title
     </div>
 }
@@ -10,5 +10,8 @@
 
 @code {
     [Parameter]
-    public string? Title { get; set; }
+    public string Title { get; set; }
+
+    [Parameter]
+    public string AlertType { get; set; }
 }

@@ -9,18 +9,14 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand.Application.Features
 {
-    public class FruitPressResult
+    public class FruitPressResult : IFruitPressResult
     {
         private readonly IRecipe _recipe;
         private readonly Collection<IFruit> _fruits;
         private readonly int _moneyPaid;
         private readonly int _orderedGlassQuantity;
 
-        public FruitPressResult(
-            IRecipe recipe,
-            Collection<IFruit> fruits,
-            int moneyPaid,
-            int orderedGlassQuantity)
+        public FruitPressResult(IRecipe recipe, Collection<IFruit> fruits, int moneyPaid, int orderedGlassQuantity)
         {
             _recipe = recipe;
             _fruits = fruits;
@@ -29,49 +25,9 @@ namespace LemonadeStand.Application.Features
         }
 
 
-        public string HandlePriceError()
-        {
-            //if (_recipe.AllowedFruit == typeof(Apple)){}
-            string errorMess = null;
-            //if (_orderedGlassQuantity == 0)
-            //{
-            //    errorMess = $"Select ordered quanity";
-            //    return errorMess;
-            //}
+        public int GetTotalPrice() => _recipe.PricePerGlass * _orderedGlassQuantity;
+        public int GetGlassQuantityCanBuy() => _moneyPaid / _recipe.PricePerGlass;
+        public int GetConsumptionFruit() => Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(_orderedGlassQuantity) * _recipe.ConsumptionPerGlass));
 
-            int resultPrice = _recipe.PricePerGlass * _orderedGlassQuantity;
-            //if (_moneyPaid == 0)
-            //{
-            //    errorMess = $"money only enough for 0 glass(es)! Money : {resultPrice} Needed!";
-            //    return errorMess;
-            //}
-
-
-            if (_moneyPaid != resultPrice)
-            {
-                int glassQuantityCanBye = _moneyPaid / _recipe.PricePerGlass;
-                errorMess = $"money only enough for {glassQuantityCanBye} glass(es)! Money : {resultPrice} Needed!";
-            }
-
-            return errorMess;
-
-        }
-
-        public string HandleConsumptionFruitError()
-        {
-            string errorMess = null;
-
-           
-            decimal consumptionFruit = Convert.ToDecimal(_orderedGlassQuantity) * _recipe.ConsumptionPerGlass;
-            decimal consumptionFruitToInt = Convert.ToInt32(Math.Ceiling( consumptionFruit));
-
-            if (consumptionFruitToInt != _fruits.Count)
-            {
-                errorMess = $"{consumptionFruitToInt} fruits are enough for {_orderedGlassQuantity} glass(es)! Allowed Fruit: {_recipe.AllowedFruit.Name}";
-            }
-
-            return errorMess;
-
-        }
     }
 }

@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LemonadeStand.Application",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LemonadeStand.BlazorApp", "LemonadeStand.BlazorApp\LemonadeStand.BlazorApp.csproj", "{658E7ECF-010D-4C1F-9EE7-527D349CAC6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LemonadeStand.MSTest", "LemonadeStand.MSTest\LemonadeStand.MSTest.csproj", "{360C0D63-8CAD-4586-BB84-6970B901654D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{658E7ECF-010D-4C1F-9EE7-527D349CAC6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{658E7ECF-010D-4C1F-9EE7-527D349CAC6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{658E7ECF-010D-4C1F-9EE7-527D349CAC6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{360C0D63-8CAD-4586-BB84-6970B901654D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{360C0D63-8CAD-4586-BB84-6970B901654D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{360C0D63-8CAD-4586-BB84-6970B901654D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{360C0D63-8CAD-4586-BB84-6970B901654D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,6 +44,7 @@ Global
 		{619F2CD9-EF48-4CD4-BBCC-36003BF073E7} = {FF8BEC76-2FD7-4C95-BB64-BDB07D43923A}
 		{FACA8D83-6F83-4CE0-AAA2-8DB4F1DD0F4C} = {E46D5965-FD55-4A26-AB32-DC7D68ADDD90}
 		{658E7ECF-010D-4C1F-9EE7-527D349CAC6F} = {619F2CD9-EF48-4CD4-BBCC-36003BF073E7}
+		{360C0D63-8CAD-4586-BB84-6970B901654D} = {588DD53B-56BE-49E8-9107-03B32CACD798}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7DC1C1BB-FF61-4434-9293-0F23101281D0}
