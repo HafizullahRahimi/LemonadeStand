@@ -1,5 +1,6 @@
 ﻿@page "/"
 
+@using LemonadeStand.BlazorApp.Validator
 @inject IFruitPressService FruitPressService
 
 <PageTitle>Lemonade Stand</PageTitle>
@@ -54,17 +55,17 @@
         <div class="form-group  col-12 col-sm-4">
             <label for="recipe">Select recipe</label>
             <InputSelect id="recipe" @bind-Value="orderDto.Recipe" class="form-select">
-                <option selected>Open this select menu</option>
-                <option value="Apple Lemonade">Apple Lemonade </option>
-                <option value="Melon Lemonade">Melon Lemonade</option>
-                <option value="Orange Lemonade">Orange Lemonade</option>
+                @* <option selected>Open this select menu</option>  *@
+                <option value="@Recipes.AppleLemonade">Apple Lemonade </option>
+                <option value="@Recipes.MelonLemonade">Melon Lemonade</option>
+                <option value="@Recipes.OrangeLemonade">Orange Lemonade</option>
             </InputSelect>
 
         </div>
 
         <div class="form-group col-12 my-2 col-sm-4 my-sm-0 mx-sm-2">
             <label for="orderedQuanity">Ordered Quanity</label>
-            <InputNumber id="orderedQuanity" @bind-Value="orderDto.OrderedGlassQuantity" class="form-control" min="0"></InputNumber>
+            <InputNumber id="orderedQuanity" @bind-Value="orderDto.OrderedQuanity" class="form-control" min="0"></InputNumber>
         </div>
 
         <div class="form-group col-12 col-sm-4">
@@ -120,55 +121,39 @@
 
 @functions {
 
-    private void HandleProcessOrder()
+    private async void HandleProcessOrder()
     {
         alertType = "danger";
         bool processOrder = false;
         fruits = new Collection<IFruit>();
 
-        bool inputsValidation = InputsValidation();
-
-        if (inputsValidation)
+        // Validation OrderDto
+        var validator = new OrderDtoValidator();
+        var result = await validator.ValidateAsync(orderDto);
+        if (!result.IsValid)
         {
+            alertType = "danger";
+            alertTitle = $"{result.Errors[0].ErrorMessage}";
+        }
+        else
+        {
+            HandleRecipeAndFruits();
             processOrder = ProcessOrder();
+
         }
 
         if (processOrder)
         {
             alertType = "success";
-            alertTitle = $"Recipe: {recipe.Name} | Ordered: {orderDto.OrderedGlassQuantity} glass(es) | Total price: {orderDto.MoneyPaid} | Used fruits : {fruits.Count} {recipe.AllowedFruit.Name}s";
+            alertTitle = $"Recipe: {recipe.Name} | Ordered: {orderDto.OrderedQuanity} glass(es) | Total price: {orderDto.MoneyPaid} | Used fruits : {fruits.Count} {recipe.AllowedFruit.Name}s";
         }
 
-
-    }
-
-    private bool InputsValidation()
-    {
-        bool recipeValidaision = RecipeValidaision();
-
-        if (!recipeValidaision)
-        {
-            alertTitle = "Select recipe";
-            return false;
-        }
-        else if (orderDto.OrderedGlassQuantity == 0)
-        {
-            alertTitle = $"Select ordered quanity";
-            return false;
-        }
-        else if (orderDto.MoneyPaid == 0)
-        {
-            alertTitle = $"money only enough for 0 glass(es)!";
-            return false;
-        }
-
-        return true;
     }
 
     private bool ProcessOrder()
     {
 
-        var produce = FruitPressService.Produce(recipe, fruits, orderDto.MoneyPaid, orderDto.OrderedGlassQuantity);
+        var produce = FruitPressService.Produce(recipe, fruits, orderDto.MoneyPaid, orderDto.OrderedQuanity);
 
 
         int totalPrice = produce.GetTotalPrice();
@@ -177,7 +162,7 @@
 
         if (orderDto.MoneyPaid != totalPrice)
         {
-            alertTitle = $"money enough for {glassQuantityCanBuy} glass(es)! Money : {totalPrice} Needed!";
+            alertTitle = $"Money enough for {glassQuantityCanBuy} glass(es)! Money : {totalPrice} Needed!";
             return false;
         }
 
@@ -189,7 +174,7 @@
 
         if (consumptionFruit != fruits.Count)
         {
-            alertTitle = $"{consumptionFruit} {recipe.AllowedFruit.Name}(s) are enough for {orderDto.OrderedGlassQuantity} glass(es)! Allowed Fruit: {recipe.AllowedFruit.Name}";
+            alertTitle = $"{consumptionFruit} {recipe.AllowedFruit.Name}(s) are enough for {orderDto.OrderedQuanity} glass(es)! Allowed Fruit: {recipe.AllowedFruit.Name}";
             return false;
         }
 
@@ -198,37 +183,30 @@
     }
 
 
-    private bool RecipeValidaision()
+    private void HandleRecipeAndFruits()
     {
         // Recipe
         switch (orderDto.Recipe)
         {
-            case "Apple Lemonade":
+            case Recipes.AppleLemonade:
                 recipe = new AppleLemonadeRecipe() { };
                 orderDto.MelonsAdded = 0;
                 orderDto.OrangesAdded = 0;
                 AddFruit(orderDto.ApplesAdded, new Apple() { });
-                return true;
                 break;
 
-            case "Melon Lemonade":
+            case Recipes.MelonLemonade:
                 recipe = new MelonLemonadeRecipe() { };
                 orderDto.ApplesAdded = 0;
                 orderDto.OrangesAdded = 0;
                 AddFruit(orderDto.MelonsAdded, new Melon() { });
-                return true;
                 break;
 
-            case "Orange Lemonade":
+            case Recipes.OrangeLemonade:
                 recipe = new OrangeLemonadeRecipe() { };
                 orderDto.ApplesAdded = 0;
                 orderDto.MelonsAdded = 0;
                 AddFruit(orderDto.OrangesAdded, new Orange() { });
-                return true;
-                break;
-
-            default:
-                return false;
                 break;
 
         }
