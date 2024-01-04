@@ -1,30 +1,28 @@
-﻿using LemonadeStand.Infrastructure;
+﻿using LemonadeStand.Application.Services;
 using LemonadeStand.Domain.Fruits;
 using LemonadeStand.Domain.Recipes;
-using LemonadeStand.Application.Services;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FluentAssertions;
+using FluentAssertions.Execution;
+using LemonadeStand.Application.DTOs;
+using System.Xml.Linq;
 
-namespace LemonadeStand.MSTest.Application.Services
+
+namespace LemonadeStand.Tests
 {
-    [TestClass]
+
     public class FruitPressServiceTest
     {
 
 
-        [TestMethod]
+        [Fact]
         public void SuccessfulProductionOf5GlassesOfAppleLemonadeTest()
         {
             // Arrange
             IRecipe recipe = new AppleLemonadeRecipe() { };
             Collection<IFruit> fruits = new Collection<IFruit>();
             AddFruit(fruits, 13, new Apple() { });
-            
+
             var fruitPressService = new FruitPressService();
             var produce = fruitPressService.Produce(recipe, fruits, 50, 5);
 
@@ -34,19 +32,13 @@ namespace LemonadeStand.MSTest.Application.Services
             var consumptionFruit = produce.GetConsumptionFruit();
 
             // Assert
-            Assert.IsNotNull(glassQuantityCanBuy);
-            Assert.AreEqual(5, glassQuantityCanBuy);
-
-            Assert.IsNotNull(totalPrice);
-            Assert.AreEqual(50, totalPrice);
-
-            Assert.IsNotNull(consumptionFruit);
-            Assert.AreEqual(13, consumptionFruit);
+            glassQuantityCanBuy.Should().Be(5);
+            totalPrice.Should().Be(50);
+            consumptionFruit.Should().Be(13);
 
         }
 
-
-        [TestMethod]
+        [Fact]
         public void SuccessfulProductionOf8GlassesOfMelonLemonadeTest()
         {
             // Arrange
@@ -55,7 +47,7 @@ namespace LemonadeStand.MSTest.Application.Services
             AddFruit(fruits, 4, new Melon() { });
 
             var fruitPressService = new FruitPressService();
-            var produce = fruitPressService.Produce(recipe, fruits, 96,8);
+            var produce = fruitPressService.Produce(recipe, fruits, 96, 8);
 
             // Act
             var glassQuantityCanBuy = produce.GetGlassQuantityCanBuy();
@@ -63,20 +55,33 @@ namespace LemonadeStand.MSTest.Application.Services
             var consumptionFruit = produce.GetConsumptionFruit();
 
             // Assert
-            Assert.IsNotNull(glassQuantityCanBuy);
-            Assert.AreEqual(8, glassQuantityCanBuy);
-
-            Assert.IsNotNull(totalPrice);
-            Assert.AreEqual(96, totalPrice);
-
-
-            Assert.IsNotNull(consumptionFruit);
-            Assert.AreEqual(4, consumptionFruit);
-
+            glassQuantityCanBuy.Should().Be(8);
+            totalPrice.Should().Be(96);
+            consumptionFruit.Should().Be(4);
+           
         }
 
 
-        private void AddFruit(Collection<IFruit> fruits,int length, IFruit fruit)
+        [Theory]
+        [InlineData("Hafizullah Rahimi")]
+        public void Test(string name)
+        {
+            // Arrange
+            var myName = "Hafizullah Rahimi";
+            using var _ = new AssertionScope();
+
+
+            // Assert
+            myName.Should().Be(name);
+            myName.Should().StartWith(name.Substring(0, 3))
+                .And.EndWith(name.Substring(name.Length - 3))
+                .And.Contain(" ");
+            //Assert.NotNull(name);
+        }
+
+
+
+        private void AddFruit(Collection<IFruit> fruits, int length, IFruit fruit)
         {
 
             for (int i = 0; i < length; i++)
