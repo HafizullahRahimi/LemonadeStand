@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LemonadeStand.Application.Contracts
+﻿namespace LemonadeStand.Domain.Recipes
 {
     public interface IRecipe
     {

@@ -1,6 +1,4 @@
-﻿
-using LemonadeStand.Application.Contracts;
-using LemonadeStand.Application.Services;
+﻿using LemonadeStand.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 

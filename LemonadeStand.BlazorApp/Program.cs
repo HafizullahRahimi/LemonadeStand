@@ -2,8 +2,6 @@ using LemonadeStand.BlazorApp;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using LemonadeStand.Application;
-using LemonadeStand.Application.Contracts;
-using LemonadeStand.Application.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 

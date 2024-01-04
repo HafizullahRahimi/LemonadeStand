@@ -1,7 +1,9 @@
-﻿using LemonadeStand.Application.Features;
+﻿using LemonadeStand.Infrastructure;
 using System.Collections.ObjectModel;
+using LemonadeStand.Domain.Fruits;
+using LemonadeStand.Domain.Recipes;
 
-namespace LemonadeStand.Application.Contracts
+namespace LemonadeStand.Application.Services
 {
     public interface IFruitPressService
     {

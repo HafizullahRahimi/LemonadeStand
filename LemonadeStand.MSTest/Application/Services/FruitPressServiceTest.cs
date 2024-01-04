@@ -1,6 +1,6 @@
-﻿using LemonadeStand.Application.Contracts;
-using LemonadeStand.Application.Models.Fruits;
-using LemonadeStand.Application.Models.Recipes;
+﻿using LemonadeStand.Infrastructure;
+using LemonadeStand.Domain.Fruits;
+using LemonadeStand.Domain.Recipes;
 using LemonadeStand.Application.Services;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;

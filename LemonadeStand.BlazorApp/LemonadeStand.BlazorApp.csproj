@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LemonadeStand.Application\LemonadeStand.Application.csproj" />
+    <ProjectReference Include="..\LemonadeStand.Domain\LemonadeStand.Domain.csproj" />
   </ItemGroup>
 
 </Project>

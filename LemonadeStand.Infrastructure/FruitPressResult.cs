@@ -1,13 +1,9 @@
-﻿using LemonadeStand.Application.Contracts;
-using LemonadeStand.Application.Models.Fruits;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
+using LemonadeStand.Domain.Fruits;
+using LemonadeStand.Domain.Recipes;
 
-namespace LemonadeStand.Application.Features
+
+namespace LemonadeStand.Infrastructure
 {
     public class FruitPressResult : IFruitPressResult
     {

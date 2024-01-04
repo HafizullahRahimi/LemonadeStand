@@ -1,11 +1,7 @@
-﻿using LemonadeStand.Application.Contracts;
-using LemonadeStand.Application.Features;
-using System;
-using System.Collections.Generic;
+﻿using LemonadeStand.Infrastructure;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using LemonadeStand.Domain.Fruits;
+using LemonadeStand.Domain.Recipes;
 
 namespace LemonadeStand.Application.Services
 {
